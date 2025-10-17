@@ -3,6 +3,9 @@
 ################################################################################
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
+# Enable compile_commands.json generation for clangd
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 ################################################################################
 # Packages
 ################################################################################

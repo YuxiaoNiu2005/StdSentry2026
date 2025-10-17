@@ -1,0 +1,9 @@
+std_msgs/Header header
+bool is_tracking_left
+bool is_tracking_right
+bool fire_advice_left
+bool fire_advice_right
+float64 pitch_1
+float64 yaw_1
+float64 pitch_2
+float64 yaw_2

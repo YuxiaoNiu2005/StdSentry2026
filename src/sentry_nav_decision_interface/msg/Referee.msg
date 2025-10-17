@@ -1,0 +1,3 @@
+uint16 current_hp
+uint8 bullet_remaining_num
+bool is_start_game
