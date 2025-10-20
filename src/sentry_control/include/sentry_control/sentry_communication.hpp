@@ -26,15 +26,15 @@ typedef struct
     float right_pitch;
     u_int8_t fire_advice_left;
     u_int8_t fire_advice_right;
-    u_int8_t is_tracking_left;        // ²¶×½µ½×°¼×°åÎªtrue£¬ Î´²¶×½µ½×°¼×°åÎªfalse
-    u_int8_t is_tracking_right;        // ²¶×½µ½×°¼×°åÎªtrue£¬ Î´²¶×½µ½×°¼×°åÎªfalse
-} camera_feedback_t; // ×ÔÃé³ÌĞò·´À¡µÄÊı¾İ
+    u_int8_t is_tracking_left;        // æ•æ‰åˆ°è£…ç”²æ¿ä¸ºtrueï¼Œ æœªæ•æ‰åˆ°è£…ç”²æ¿ä¸ºfalse
+    u_int8_t is_tracking_right;        // æ•æ‰åˆ°è£…ç”²æ¿ä¸ºtrueï¼Œ æœªæ•æ‰åˆ°è£…ç”²æ¿ä¸ºfalse
+} camera_feedback_t; // è‡ªç„ç¨‹åºåé¦ˆçš„æ•°æ®
 
 /*
     error_type:
-        1: ÏÂÎ»»ú½ÓÊÕµ½Êı¾İ(ÓÉÏÂÎ»»ú¼ì²â²úÉú)
-        2: ÉÏÉãÏñÍ·ÀëÏß(ÓÉÉÏÎ»»ú¼ì²â²úÉú)
-        3: ÏÂÉãÏñÍ·ÀëÏß(ÓÉÉÏÎ»»ú¼ì²â²úÉú)
+        1: ä¸‹ä½æœºæ¥æ”¶åˆ°æ•°æ®(ç”±ä¸‹ä½æœºæ£€æµ‹äº§ç”Ÿ)
+        2: ä¸Šæ‘„åƒå¤´ç¦»çº¿(ç”±ä¸Šä½æœºæ£€æµ‹äº§ç”Ÿ)
+        3: ä¸‹æ‘„åƒå¤´ç¦»çº¿(ç”±ä¸Šä½æœºæ£€æµ‹äº§ç”Ÿ)
 */
 
 typedef struct
@@ -42,7 +42,7 @@ typedef struct
     cmd_vel_buffer_t cmd_vel;
     camera_feedback_t camera_feedback_data;
     float mid_360_yaw;
-    uint8_t error_type;         // ´íÎóÀàĞÍ
+    uint8_t error_type;         // é”™è¯¯ç±»å‹
 } usb_callback_t;
 
 typedef union
@@ -53,25 +53,25 @@ typedef union
 
 /*
     flag_byte
-    bit0 : Ò£¿ØÆ÷Ä£Ê½Ñ¡Ôñ£¬1ÎªROSÄ£Ê½(Ò£¿ØÆ÷ÓÒ±ß¿ª¹Ø)
-    bit1 : 0¶ÔÓ¦¿ª¹ØÎ»ÖÃÔÚÉÏÎªÀ¶·½£¬1¶ÔÓ¦¿ª¹ØÎ»ÖÃÔÚÏÂÎªºì·½(Ò£¿ØÆ÷×ó±ß¿ª¹Ø)
+    bit0 : é¥æ§å™¨æ¨¡å¼é€‰æ‹©ï¼Œ1ä¸ºROSæ¨¡å¼(é¥æ§å™¨å³è¾¹å¼€å…³)
+    bit1 : 0å¯¹åº”å¼€å…³ä½ç½®åœ¨ä¸Šä¸ºè“æ–¹ï¼Œ1å¯¹åº”å¼€å…³ä½ç½®åœ¨ä¸‹ä¸ºçº¢æ–¹(é¥æ§å™¨å·¦è¾¹å¼€å…³)
 */
 typedef struct
 {
-    uint8_t detect_color;   // 0:ºìÉ« 1:À¶É«
-    float projectile_speed;  // µ¯ËÙ
+    uint8_t detect_color;   // 0:çº¢è‰² 1:è“è‰²
+    float projectile_speed;  // å¼¹é€Ÿ
     float parent_yaw;
     float letf_yaw;
     float letf_pitch;
     float right_yaw;
     float right_pitch;
-} camera_tx_t; // ÏòÉÏÎ»»ú×ÔÃé³ÌĞò·¢ËÍµÄÊı¾İ
+} camera_tx_t; // å‘ä¸Šä½æœºè‡ªç„ç¨‹åºå‘é€çš„æ•°æ®
 
 typedef struct
 {
-    uint16_t current_HP;            // µ±Ç°ÑªÁ¿
-    uint8_t bullet_remaining_num;   // Ê£Óà×Óµ¯Êı
-    uint8_t is_start_game;             // ÊÇ·ñ¿ªÊ¼±ÈÈü
+    uint16_t current_HP;            // å½“å‰è¡€é‡
+    uint8_t bullet_remaining_num;   // å‰©ä½™å­å¼¹æ•°
+    uint8_t is_start_game;             // æ˜¯å¦å¼€å§‹æ¯”èµ›
 } referee_tx_t;
 
 typedef struct

@@ -7,18 +7,18 @@
 
 typedef struct
 {
-    uint16_t current_hp;            // µ±Ç°ÑªÁ¿
-    uint8_t bullet_remaining_num;   // Ê£Óà×Óµ¯Êı
-    bool is_start_game;             // ÊÇ·ñ¿ªÊ¼±ÈÈü
+    uint16_t current_hp;            // å½“å‰è¡€é‡
+    uint8_t bullet_remaining_num;   // å‰©ä½™å­å¼¹æ•°
+    bool is_start_game;             // æ˜¯å¦å¼€å§‹æ¯”èµ›
 } referee_t;
 
 enum class sentry_state_navE
 {
-    WAIT_FOR_START = 0,     // µÈ´ı±ÈÈü¿ªÊ¼
-    MOVE_TO_STRATEGIC,      // ÒÆ¶¯µ½Õ½ÂÔµã
-    MOVE_TO_HIDE,           // Ê£Óà·¢µ¥Á¿Îª0Ê±£¬ÒÆ¶¯µ½¶ã²Øµã
-    MOVE_TO_HEAL,           // ÒÆ¶¯µ½»Ö¸´µã
-    WAIT_FOR_HEAL           // µÈ´ı»ØÑª£¬¹Ø±ÕĞ¡ÍÓÂİ
+    WAIT_FOR_START = 0,     // ç­‰å¾…æ¯”èµ›å¼€å§‹
+    MOVE_TO_STRATEGIC,      // ç§»åŠ¨åˆ°æˆ˜ç•¥ç‚¹
+    MOVE_TO_HIDE,           // å‰©ä½™å‘å•é‡ä¸º0æ—¶ï¼Œç§»åŠ¨åˆ°èº²è—ç‚¹
+    MOVE_TO_HEAL,           // ç§»åŠ¨åˆ°æ¢å¤ç‚¹
+    WAIT_FOR_HEAL           // ç­‰å¾…å›è¡€ï¼Œå…³é—­å°é™€èº
 };
 
 using NavigateToPose = nav2_msgs::action::NavigateToPose;
@@ -33,9 +33,9 @@ private:
     sentry_state_navE sentry_state;
     referee_t referee_data;
     bool is_small_gyro;
-    int retry_count;    // µ¼º½Ê§°Ü³¢ÊÔ´ÎÊı
+    int retry_count;    // å¯¼èˆªå¤±è´¥å°è¯•æ¬¡æ•°
     bool change_create_goal;
-    geometry_msgs::msg::PoseStamped last_goal;  // ¼ÇÂ¼×îºóÒ»¸öµ¼º½Ä¿±ê
+    geometry_msgs::msg::PoseStamped last_goal;  // è®°å½•æœ€åä¸€ä¸ªå¯¼èˆªç›®æ ‡
 
     geometry_msgs::msg::PoseStamped recover_zone;
     geometry_msgs::msg::PoseStamped strategic_zone;
@@ -46,14 +46,14 @@ private:
         if (result.code == rclcpp_action::ResultCode::SUCCEEDED)
         {
             RCLCPP_INFO(this->get_logger(), "Goal reached successfully.");
-            retry_count = 0;  // ÖØÖÃÖØÊÔ¼ÆÊı
+            retry_count = 0;  // é‡ç½®é‡è¯•è®¡æ•°
         }
         else
         {
             RCLCPP_WARN(this->get_logger(), "Failed to reach goal.");
             if (retry_count < 2)
             {  
-                // Ê§°ÜÊ±£¬×î¶àÔÙÖØÊÔ 2 ´Î
+                // å¤±è´¥æ—¶ï¼Œæœ€å¤šå†é‡è¯• 2 æ¬¡
                 retry_count++;
                 RCLCPP_WARN(this->get_logger(), "Retrying (%d/2)...", retry_count);
                 send_goal(last_goal);
@@ -65,7 +65,7 @@ private:
         }
     }
 
-    // ·¢ËÍµ¼º½Ä¿±êÎ»ÖÃ
+    // å‘é€å¯¼èˆªç›®æ ‡ä½ç½®
     void send_goal(const geometry_msgs::msg::PoseStamped &goal)
     {
         if (!nav_goal_client_ptr->wait_for_action_server(std::chrono::seconds(10)))
@@ -76,8 +76,8 @@ private:
 
         auto goal_msg = NavigateToPose::Goal();
         goal_msg.pose = goal;
-        last_goal = goal;  // ¼ÇÂ¼µ±Ç°Ä¿±êµã
-        retry_count = 0;   // ÖØÖÃÖØÊÔ¼ÆÊı
+        last_goal = goal;  // è®°å½•å½“å‰ç›®æ ‡ç‚¹
+        retry_count = 0;   // é‡ç½®é‡è¯•è®¡æ•°
 
         auto send_goal_options = rclcpp_action::Client<NavigateToPose>::SendGoalOptions();
         send_goal_options.result_callback = std::bind(&SentryNavigator::goal_result_callback, this, std::placeholders::_1);
@@ -107,7 +107,7 @@ private:
         
         if (!referee_data.is_start_game)
         {
-            sentry_state = sentry_state_navE::WAIT_FOR_START;  // ±ÈÈüÎ´¿ªÊ¼Ê±£¬ÖØÖÃ×´Ì¬
+            sentry_state = sentry_state_navE::WAIT_FOR_START;  // æ¯”èµ›æœªå¼€å§‹æ—¶ï¼Œé‡ç½®çŠ¶æ€
             return;
         }
 
@@ -142,14 +142,14 @@ private:
                 break;
 
             case sentry_state_navE::MOVE_TO_HEAL:
-                is_small_gyro = false;  // ½øÈë»ØÑª×´Ì¬£¬¹Ø±ÕĞ¡ÍÓÂİ£¬µ¼º½²»×¼Ê±£¬ÒÔ±ãÓÚ»úÆ÷ÈË½«ÉÚ±ø×²»Ø»Ö¸´Çø
+                is_small_gyro = false;  // è¿›å…¥å›è¡€çŠ¶æ€ï¼Œå…³é—­å°é™€èºï¼Œå¯¼èˆªä¸å‡†æ—¶ï¼Œä»¥ä¾¿äºæœºå™¨äººå°†å“¨å…µæ’å›æ¢å¤åŒº
                 sentry_state = sentry_state_navE::WAIT_FOR_HEAL;
                 break;
 
             case sentry_state_navE::WAIT_FOR_HEAL:
                 if (referee_data.current_hp >= 380)
                 {
-                    is_small_gyro = true;  // »ØÑªÍê³É£¬¿ªÆôĞ¡ÍÓÂİ
+                    is_small_gyro = true;  // å›è¡€å®Œæˆï¼Œå¼€å¯å°é™€èº
                     if (referee_data.bullet_remaining_num > 0)
                     {
                         sentry_state = sentry_state_navE::MOVE_TO_STRATEGIC;

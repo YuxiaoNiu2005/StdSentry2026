@@ -3,18 +3,18 @@
 
 typedef struct
 {
-    uint16_t current_hp;            // µ±Ç°ÑªÁ¿
-    uint8_t bullet_remaining_num;   // Ê£Óà×Óµ¯Êı
-    bool is_start_game;             // ÊÇ·ñ¿ªÊ¼±ÈÈü
+    uint16_t current_hp;            // å½“å‰è¡€é‡
+    uint8_t bullet_remaining_num;   // å‰©ä½™å­å¼¹æ•°
+    bool is_start_game;             // æ˜¯å¦å¼€å§‹æ¯”èµ›
 } referee_t;
 
 enum class sentry_state_navE
 {
-    WAIT_FOR_START = 0,     // µÈ´ı±ÈÈü¿ªÊ¼
-    MOVE_TO_STRATEGIC,      // ÒÆ¶¯µ½Õ½ÂÔµã
-    MOVE_TO_HIDE,           // Ê£Óà·¢µ¥Á¿Îª0Ê±£¬ÒÆ¶¯µ½¶ã²Øµã
-    MOVE_TO_HEAL,           // ÒÆ¶¯µ½»Ö¸´µã
-    WAIT_FOR_HEAL           // µÈ´ı»ØÑª£¬¹Ø±ÕĞ¡ÍÓÂİ
+    WAIT_FOR_START = 0,     // ç­‰å¾…æ¯”èµ›å¼€å§‹
+    MOVE_TO_STRATEGIC,      // ç§»åŠ¨åˆ°æˆ˜ç•¥ç‚¹
+    MOVE_TO_HIDE,           // å‰©ä½™å‘å•é‡ä¸º0æ—¶ï¼Œç§»åŠ¨åˆ°èº²è—ç‚¹
+    MOVE_TO_HEAL,           // ç§»åŠ¨åˆ°æ¢å¤ç‚¹
+    WAIT_FOR_HEAL           // ç­‰å¾…å›è¡€ï¼Œå…³é—­å°é™€èº
 };
 
 #endif

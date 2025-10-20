@@ -12,7 +12,7 @@
 #include "sentry_nav_decision_interface/msg/referee.hpp"
 
 /*
-    �ýڵ���������λ��(ʹ��USB����ģ��usart)ͨѶ�����յ���λ��������δ��������ֱ�ӷ���ԭʼ���ݵ������У��쳣���
+    本节点负责与下位机(使用USB串口模拟usart)通讯，接收到下位机的数据后未做处理，直接发送原始数据到其他节点中，异常检测
 */
 
 std::shared_ptr<serial::Serial> ros_serial_ptr;
@@ -72,9 +72,9 @@ class USBCommunicationNode : public rclcpp::Node
         }
         // /*
         //     error_type:
-        //         1: ��λ�����յ�����(����λ��������)
-        //         2: ������ͷ����(����λ��������)
-        //         3: ������ͷ����(����λ��������)
+        //         1: 基层通信接收到错误(标记位置异常)
+        //         2: 上层摄像头不运行(标记位置异常)
+        //         3: 下层摄像头不运行(标记位置异常)
         // */
         // void node_error_detect(const std::vector<std::string>& names) 
         // {
